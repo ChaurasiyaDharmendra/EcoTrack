@@ -1,5 +1,4 @@
-
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Store the login token for protected API requests.
 let authToken = "";
@@ -15,23 +14,19 @@ export async function apiRequest(endpoint, options = {}) {
     ...options.headers,
   };
 
-  // Set JSON content type when sending a request body.
   if (options.body) {
     headers["Content-Type"] = "application/json";
   }
 
-  // Attach the JWT token to protected API requests.
   if (authToken) {
     headers.Authorization = `Bearer ${authToken}`;
   }
 
-  // Send the request to the Express backend.
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers,
   });
 
-  // Read the backend response without an unnecessary initial assignment.
   const contentType = response.headers.get("content-type") || "";
   let data;
 
@@ -42,7 +37,6 @@ export async function apiRequest(endpoint, options = {}) {
     data = text ? { message: text } : {};
   }
 
-  // Return a readable error when the backend request fails.
   if (!response.ok) {
     throw new Error(data.message || "Request failed");
   }
@@ -50,7 +44,6 @@ export async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
-// Register a new user.
 export function signupUser(userData) {
   return apiRequest("/auth/signup", {
     method: "POST",
@@ -58,7 +51,6 @@ export function signupUser(userData) {
   });
 }
 
-// Log in and receive the JWT token.
 export function loginUser(credentials) {
   return apiRequest("/auth/login", {
     method: "POST",
@@ -66,12 +58,10 @@ export function loginUser(credentials) {
   });
 }
 
-// Get the logged-in user's carbon activity records.
 export function getCarbonEntries() {
   return apiRequest("/carbon");
 }
 
-// Save a new carbon activity.
 export function addCarbonEntry(entry) {
   return apiRequest("/carbon", {
     method: "POST",
@@ -79,19 +69,16 @@ export function addCarbonEntry(entry) {
   });
 }
 
-// Delete a carbon activity by its database ID.
 export function deleteCarbonEntry(id) {
   return apiRequest(`/carbon/${id}`, {
     method: "DELETE",
   });
 }
 
-// Get the logged-in user's goals.
 export function getGoals() {
   return apiRequest("/goals");
 }
 
-// Create a new goal.
 export function addGoal(goal) {
   return apiRequest("/goals", {
     method: "POST",
@@ -99,7 +86,6 @@ export function addGoal(goal) {
   });
 }
 
-// Update an existing goal.
 export function updateGoal(id, goal) {
   return apiRequest(`/goals/${id}`, {
     method: "PUT",
@@ -107,29 +93,24 @@ export function updateGoal(id, goal) {
   });
 }
 
-// Delete a goal by its database ID.
 export function deleteGoal(id) {
   return apiRequest(`/goals/${id}`, {
     method: "DELETE",
   });
 }
 
-// Get available challenges.
 export function getChallenges() {
   return apiRequest("/challenges");
 }
 
-// Get dashboard statistics.
 export function getDashboard() {
   return apiRequest("/dashboard");
 }
 
-// Get the logged-in user's profile.
 export function getProfile() {
   return apiRequest("/profile");
 }
 
-// Save updated profile details.
 export function updateProfile(profile) {
   return apiRequest("/profile", {
     method: "PUT",
