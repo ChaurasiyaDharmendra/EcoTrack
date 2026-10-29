@@ -1,0 +1,149 @@
+
+.goals-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.goals-page h1 {
+  color: #21834a;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.goals-description {
+  color: #66756b;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.goals-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e0e8e2;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+.goals-form label {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #34483a;
+}
+
+.goals-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cdd9cf;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.goals-form input:focus {
+  outline: 2px solid #a5d8b5;
+  border-color: #21834a;
+}
+
+.goals-form button {
+  margin-top: 10px;
+  padding: 12px 18px;
+  background: #21834a;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.goals-form button:hover {
+  background: #176638;
+}
+
+.goals-list-title {
+  margin: 30px 0 18px;
+  font-size: 22px;
+  color: #26352c;
+}
+
+.empty-goals {
+  padding: 22px;
+  background: #ffffff;
+  color: #66756b;
+  border: 1px solid #e0e8e2;
+  border-radius: 10px;
+}
+
+.goals-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.goal-card {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e0e8e2;
+  border-radius: 10px;
+}
+
+.goal-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.goal-card h3 {
+  color: #21834a;
+  overflow-wrap: anywhere;
+}
+
+.goal-status {
+  padding: 5px 10px;
+  background: #e6f5eb;
+  color: #21834a;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.goal-card p {
+  margin-bottom: 12px;
+  color: #59675e;
+}
+
+.delete-goal-button {
+  margin-top: 8px;
+  padding: 10px 15px;
+  background: #c0392b;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.delete-goal-button:hover {
+  background: #962d22;
+}
+
+@media (max-width: 650px) {
+  .goals-page h1 {
+    font-size: 24px;
+  }
+
+  .goals-form {
+    padding: 18px;
+  }
+
+  .goals-list {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,128 @@
+
+.profile-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile-page h1 {
+  color: #21834a;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.profile-description {
+  color: #66756b;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.profile-card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 35px;
+  background: #ffffff;
+  border: 1px solid #e0e8e2;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 85px;
+  height: 85px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6f5eb;
+  color: #21834a;
+  border-radius: 50%;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.profile-details h2 {
+  color: #26352c;
+  font-size: 23px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.profile-details p {
+  color: #66756b;
+  margin-bottom: 22px;
+  overflow-wrap: anywhere;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.profile-form label {
+  color: #34483a;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cdd9cf;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.profile-form input:focus {
+  outline: 2px solid #a5d8b5;
+  border-color: #21834a;
+}
+
+.profile-details button,
+.profile-actions button {
+  padding: 12px 18px;
+  background: #21834a;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.profile-details button:hover,
+.profile-actions button:hover {
+  background: #176638;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.profile-actions .cancel-button {
+  background: #66756b;
+}
+
+.profile-actions .cancel-button:hover {
+  background: #4b5a50;
+}
+
+.profile-message {
+  margin-top: 20px;
+  color: #21834a;
+  font-size: 14px;
+}
+
+@media (max-width: 650px) {
+  .profile-page h1 {
+    font-size: 24px;
+  }
+
+  .profile-card {
+    padding: 22px;
+  }
+}
