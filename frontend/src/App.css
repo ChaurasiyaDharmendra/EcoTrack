@@ -187,6 +187,130 @@
   color: #17683a;
 }
 
+/* Emission Chart */
+.emission-chart-section {
+  width: 100%;
+  margin: 35px 0;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e1ebe3;
+  border-radius: 12px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.chart-header h2 {
+  margin: 0 0 8px;
+  color: #26352c;
+  font-size: 21px;
+}
+
+.chart-header p {
+  margin: 0;
+  color: #78867c;
+  font-size: 14px;
+}
+
+.chart-toggle {
+  display: flex;
+  gap: 8px;
+  padding: 5px;
+  background: #f0f5f1;
+  border-radius: 8px;
+}
+
+.chart-toggle button {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #435349;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.chart-toggle button.selected {
+  background: #247447;
+  color: #ffffff;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 12px;
+  width: 100%;
+  min-height: 230px;
+  padding: 15px 5px 0;
+  border-bottom: 1px solid #e1ebe3;
+}
+
+.chart-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  height: 230px;
+  gap: 8px;
+}
+
+.chart-value {
+  color: #435349;
+  font-size: 11px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.chart-bar-track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 65%;
+  height: 165px;
+}
+
+.chart-bar {
+  width: 100%;
+  min-height: 0;
+  background: #48a66b;
+  border-radius: 7px 7px 0 0;
+  transition: height 0.3s ease;
+}
+
+.chart-bar:hover {
+  background: #247447;
+}
+
+.chart-label {
+  color: #68776d;
+  font-size: 12px;
+  text-align: center;
+}
+
+.chart-unit {
+  margin: 15px 0 0;
+  color: #78867c;
+  font-size: 12px;
+  text-align: center;
+}
+
+.no-chart-data {
+  padding: 50px 10px;
+  color: #78867c;
+  font-size: 14px;
+  text-align: center;
+}
+
 /* About EcoTrack */
 .info-section {
   width: 100%;
@@ -320,5 +444,35 @@ button:focus-visible {
 
   .info-section {
     padding: 18px;
+  }
+
+  /* Chart Mobile Responsive */
+  .emission-chart-section {
+    padding: 18px 12px;
+  }
+
+  .chart-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chart-bars {
+    gap: 5px;
+  }
+
+  .chart-column {
+    gap: 6px;
+  }
+
+  .chart-bar-track {
+    width: 75%;
+  }
+
+  .chart-value {
+    font-size: 9px;
+  }
+
+  .chart-label {
+    font-size: 10px;
   }
 }

@@ -23,6 +23,7 @@ function App() {
   const [error, setError] = useState("");
   const [dashboard, setDashboard] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [chartPeriod, setChartPeriod] = useState("weekly");
 
   // Register a new user.
   const handleSignup = async (userData) => {
@@ -200,6 +201,16 @@ function App() {
           "Lifestyle",
         ];
 
+        const chartData =
+          chartPeriod === "weekly"
+            ? dashboard?.weeklySummary || []
+            : dashboard?.monthlySummary || [];
+
+        const maxEmission = Math.max(
+          ...chartData.map((item) => Number(item.emission || 0)),
+          1
+        );
+
         return (
           <>
             <h2>Welcome to EcoTrack, {user.name}!</h2>
@@ -225,7 +236,9 @@ function App() {
             <div className="dashboard-cards">
               <div className="card total-card">
                 <h3>Total CO₂ Emission</h3>
-                <p className="number">{totalEmission.toFixed(2)} kg</p>
+                <p className="number">
+                  {totalEmission.toFixed(2)} kg
+                </p>
                 <span>Total recorded emission</span>
               </div>
 
@@ -239,6 +252,82 @@ function App() {
                 </div>
               ))}
             </div>
+
+            {/* Weekly and Monthly Emission Chart */}
+            <section className="emission-chart-section">
+              <div className="chart-header">
+                <div>
+                  <h2>Emission Statistics</h2>
+                  <p>Track your carbon emissions over time.</p>
+                </div>
+
+                <div className="chart-toggle">
+                  <button
+                    className={chartPeriod === "weekly" ? "selected" : ""}
+                    onClick={() => setChartPeriod("weekly")}
+                  >
+                    Weekly
+                  </button>
+
+                  <button
+                    className={chartPeriod === "monthly" ? "selected" : ""}
+                    onClick={() => setChartPeriod("monthly")}
+                  >
+                    Monthly
+                  </button>
+                </div>
+              </div>
+
+              <div className="chart-content">
+                {chartData.length > 0 ? (
+                  <>
+                    <div className="chart-bars">
+                      {chartData.map((item, index) => {
+                        const emission = Number(item.emission || 0);
+
+                        const barHeight =
+                          emission > 0
+                            ? Math.max(
+                                (emission / maxEmission) * 100,
+                                5
+                              )
+                            : 0;
+
+                        return (
+                          <div
+                            className="chart-column"
+                            key={`${chartPeriod}-${item.label}-${index}`}
+                          >
+                            <span className="chart-value">
+                              {emission.toFixed(2)}
+                            </span>
+
+                            <div className="chart-bar-track">
+                              <div
+                                className="chart-bar"
+                                style={{ height: `${barHeight}%` }}
+                              />
+                            </div>
+
+                            <span className="chart-label">
+                              {item.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <p className="chart-unit">
+                      CO₂ Emission (kg)
+                    </p>
+                  </>
+                ) : (
+                  <p className="no-chart-data">
+                    No emission data available for this period.
+                  </p>
+                )}
+              </div>
+            </section>
 
             <section className="info-section">
               <h2>About EcoTrack</h2>
