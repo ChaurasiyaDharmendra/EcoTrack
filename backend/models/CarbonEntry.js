@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const carbonEntrySchema = new mongoose.Schema(
@@ -8,29 +7,42 @@ const carbonEntrySchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     category: {
       type: String,
-      enum: ["Transport", "Electricity", "Lifestyle"],
+      enum: [
+        "Transport",
+        "Electricity",
+        "Food",
+        "Waste Management",
+        "Water",
+        "Lifestyle",
+      ],
       required: true,
     },
+
     activity: {
       type: String,
       required: true,
     },
+
     quantity: {
       type: Number,
       required: true,
       min: 0,
     },
+
     unit: {
       type: String,
       required: true,
     },
+
     carbonEmission: {
       type: Number,
       required: true,
       min: 0,
     },
+
     date: {
       type: Date,
       default: Date.now,

@@ -18,14 +18,49 @@ function CarbonTracker({ onDataChange }) {
   const [deletingId, setDeletingId] = useState("");
   const [error, setError] = useState("");
 
-  // Available activities and their units.
-  // Reusable products is excluded until a matching backend factor exists.
+  // All available categories and activities.
   const activityOptions = {
-    Electricity: [{ name: "Grid electricity", unit: "kWh" }],
+    Electricity: [
+      { name: "Grid electricity", unit: "kWh" },
+      { name: "Solar electricity", unit: "kWh" },
+    ],
+
     Transport: [
       { name: "Petrol car", unit: "km" },
-      { name: "Bus", unit: "km" },
+      { name: "Diesel car", unit: "km" },
+      { name: "CNG car", unit: "km" },
       { name: "Motorcycle", unit: "km" },
+      { name: "Petrol scooter", unit: "km" },
+      { name: "Auto rickshaw (CNG)", unit: "km" },
+      { name: "Bus", unit: "km" },
+      { name: "City bus", unit: "passenger-km" },
+      { name: "Domestic flight", unit: "passenger-km" },
+    ],
+
+    Food: [
+      { name: "Vegetarian meal", unit: "meal" },
+      { name: "Non-vegetarian meal", unit: "meal" },
+      { name: "Chicken", unit: "kg" },
+      { name: "Mutton", unit: "kg" },
+      { name: "Milk", unit: "litre" },
+    ],
+
+    "Waste Management": [
+      { name: "Plastic waste", unit: "kg" },
+      { name: "Paper waste", unit: "kg" },
+      { name: "Food waste", unit: "kg" },
+      { name: "Recycled waste", unit: "kg" },
+    ],
+
+    Water: [
+      { name: "Water consumption", unit: "litre" },
+      { name: "Hot water usage", unit: "litre" },
+    ],
+
+    Lifestyle: [
+      { name: "LPG cooking", unit: "kg" },
+      { name: "Clothing purchase", unit: "item" },
+      { name: "General shopping", unit: "item" },
     ],
   };
 
@@ -33,7 +68,7 @@ function CarbonTracker({ onDataChange }) {
     (item) => item.name === activity
   );
 
-  // Load saved activities from the backend when this page opens.
+  // Load activities from MongoDB.
   useEffect(() => {
     let cancelled = false;
 
@@ -43,14 +78,18 @@ function CarbonTracker({ onDataChange }) {
 
       try {
         const data = await getCarbonEntries();
-        const records = Array.isArray(data) ? data : data.entries || [];
+        const records = Array.isArray(data)
+          ? data
+          : data.entries || [];
 
         if (!cancelled) {
           setEntries(records);
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message || "Could not load activity records.");
+          setError(
+            err.message || "Could not load activity records."
+          );
         }
       } finally {
         if (!cancelled) {
@@ -66,20 +105,29 @@ function CarbonTracker({ onDataChange }) {
     };
   }, []);
 
-  // Change the available activities when the category changes.
+  // Change activity when category changes.
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
+
     setCategory(newCategory);
     setActivity(activityOptions[newCategory][0].name);
+    setQuantity("");
   };
 
-  // Save a new activity in MongoDB through the backend.
+  // Add a new activity.
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
 
-    if (!selectedActivity || !quantity || Number(quantity) <= 0 || !date) {
-      setError("Please enter a valid activity, quantity and date.");
+    if (
+      !selectedActivity ||
+      !quantity ||
+      Number(quantity) <= 0 ||
+      !date
+    ) {
+      setError(
+        "Please enter a valid activity, quantity and date."
+      );
       return;
     }
 
@@ -103,7 +151,6 @@ function CarbonTracker({ onDataChange }) {
 
       setQuantity("");
 
-      // Tell App.jsx to refresh dashboard statistics.
       if (onDataChange) {
         await onDataChange();
       }
@@ -114,7 +161,7 @@ function CarbonTracker({ onDataChange }) {
     }
   };
 
-  // Delete an activity from the backend and update the dashboard.
+  // Delete an activity.
   const handleDelete = async (id) => {
     setError("");
     setDeletingId(id);
@@ -149,21 +196,32 @@ function CarbonTracker({ onDataChange }) {
       {error && <p className="auth-error">{error}</p>}
 
       <form className="tracker-form" onSubmit={handleSubmit}>
-        <label htmlFor="activity-category">Category</label>
+        <label htmlFor="activity-category">
+          Category
+        </label>
+
         <select
           id="activity-category"
           value={category}
           onChange={handleCategoryChange}
         >
-          <option value="Electricity">Electricity</option>
-          <option value="Transport">Transport</option>
+          {Object.keys(activityOptions).map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
         </select>
 
-        <label htmlFor="activity-name">Activity</label>
+        <label htmlFor="activity-name">
+          Activity
+        </label>
+
         <select
           id="activity-name"
           value={activity}
-          onChange={(event) => setActivity(event.target.value)}
+          onChange={(event) =>
+            setActivity(event.target.value)
+          }
         >
           {activityOptions[category].map((item) => (
             <option key={item.name} value={item.name}>
@@ -175,6 +233,7 @@ function CarbonTracker({ onDataChange }) {
         <label htmlFor="activity-quantity">
           Quantity ({selectedActivity.unit})
         </label>
+
         <input
           id="activity-quantity"
           type="number"
@@ -182,16 +241,23 @@ function CarbonTracker({ onDataChange }) {
           step="any"
           placeholder="Enter quantity"
           value={quantity}
-          onChange={(event) => setQuantity(event.target.value)}
+          onChange={(event) =>
+            setQuantity(event.target.value)
+          }
           required
         />
 
-        <label htmlFor="activity-date">Date</label>
+        <label htmlFor="activity-date">
+          Date
+        </label>
+
         <input
           id="activity-date"
           type="date"
           value={date}
-          onChange={(event) => setDate(event.target.value)}
+          onChange={(event) =>
+            setDate(event.target.value)
+          }
           required
         />
 
@@ -200,12 +266,18 @@ function CarbonTracker({ onDataChange }) {
         </button>
       </form>
 
-      <h2 className="entries-title">Activity Records</h2>
+      <h2 className="entries-title">
+        Activity Records
+      </h2>
 
       {loading && entries.length === 0 ? (
-        <p className="empty-message">Loading activities...</p>
+        <p className="empty-message">
+          Loading activities...
+        </p>
       ) : entries.length === 0 ? (
-        <p className="empty-message">No activities added yet.</p>
+        <p className="empty-message">
+          No activities added yet.
+        </p>
       ) : (
         <div className="entries-list">
           {entries.map((entry) => {
@@ -214,13 +286,20 @@ function CarbonTracker({ onDataChange }) {
             return (
               <div className="entry-card" key={id}>
                 <h3>{entry.activity}</h3>
+
                 <p>Category: {entry.category}</p>
+
                 <p>
                   Quantity: {entry.quantity} {entry.unit}
                 </p>
+
                 <p>
-                  Date: {entry.date ? String(entry.date).slice(0, 10) : ""}
+                  Date:{" "}
+                  {entry.date
+                    ? String(entry.date).slice(0, 10)
+                    : ""}
                 </p>
+
                 <p>
                   Estimated CO₂:{" "}
                   {Number(
@@ -234,7 +313,9 @@ function CarbonTracker({ onDataChange }) {
                   onClick={() => handleDelete(id)}
                   disabled={deletingId === id}
                 >
-                  {deletingId === id ? "Deleting..." : "Delete"}
+                  {deletingId === id
+                    ? "Deleting..."
+                    : "Delete"}
                 </button>
               </div>
             );

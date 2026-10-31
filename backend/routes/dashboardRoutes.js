@@ -14,43 +14,64 @@ router.get("/", authMiddleware, async (req, res) => {
       user: req.user.id,
     });
 
-    // Calculate the total CO2 emission from all activities.
+    // Calculate total CO2 emission.
     const totalEmission = entries.reduce(
-      (total, entry) => total + Number(entry.carbonEmission || 0),
+      (total, entry) =>
+        total + Number(entry.carbonEmission || 0),
       0
     );
 
-    // Store emissions separately for each category.
+    // Store emissions separately for all categories.
     const categorySummary = {
       Transport: 0,
       Electricity: 0,
+      Food: 0,
+      "Waste Management": 0,
+      Water: 0,
       Lifestyle: 0,
     };
 
-    // Add each activity's emission to its category.
+    // Calculate category-wise emissions.
     entries.forEach((entry) => {
-      if (Object.prototype.hasOwnProperty.call(
-        categorySummary,
-        entry.category
-      )) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          categorySummary,
+          entry.category
+        )
+      ) {
         categorySummary[entry.category] += Number(
           entry.carbonEmission || 0
         );
       }
     });
 
-    // Send dashboard statistics back to the React frontend.
+    // Send dashboard statistics to frontend.
     return res.status(200).json({
       totalActivities: entries.length,
       totalEmission: Number(totalEmission.toFixed(2)),
+
       categorySummary: {
-        Transport: Number(categorySummary.Transport.toFixed(2)),
-        Electricity: Number(categorySummary.Electricity.toFixed(2)),
-        Lifestyle: Number(categorySummary.Lifestyle.toFixed(2)),
+        Transport: Number(
+          categorySummary.Transport.toFixed(2)
+        ),
+        Electricity: Number(
+          categorySummary.Electricity.toFixed(2)
+        ),
+        Food: Number(
+          categorySummary.Food.toFixed(2)
+        ),
+        "Waste Management": Number(
+          categorySummary["Waste Management"].toFixed(2)
+        ),
+        Water: Number(
+          categorySummary.Water.toFixed(2)
+        ),
+        Lifestyle: Number(
+          categorySummary.Lifestyle.toFixed(2)
+        ),
       },
     });
   } catch (error) {
-    // Return an error response if fetching dashboard data fails.
     console.error("Dashboard error:", error.message);
 
     return res.status(500).json({

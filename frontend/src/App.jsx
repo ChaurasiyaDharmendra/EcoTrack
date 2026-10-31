@@ -24,7 +24,7 @@ function App() {
   const [dashboard, setDashboard] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
 
-  // Register a new user through the backend.
+  // Register a new user.
   const handleSignup = async (userData) => {
     setError("");
 
@@ -38,7 +38,7 @@ function App() {
     }
   };
 
-  // Log in and save the JWT token for protected API requests.
+  // Log in and save the JWT token.
   const handleLogin = async (credentials) => {
     setError("");
 
@@ -60,7 +60,7 @@ function App() {
     }
   };
 
-  // Clear the login token and user information on logout.
+  // Logout the current user.
   const handleLogout = () => {
     setAuthToken("");
     setUser(null);
@@ -71,7 +71,7 @@ function App() {
     setDashboardLoading(false);
   };
 
-  // Load dashboard information from the backend.
+  // Load dashboard statistics.
   const refreshDashboard = async () => {
     if (!user) return;
 
@@ -88,7 +88,7 @@ function App() {
     }
   };
 
-  // Fetch dashboard data when a user logs in.
+  // Fetch dashboard data after login.
   useEffect(() => {
     if (!user) return;
 
@@ -122,7 +122,7 @@ function App() {
     };
   }, [user]);
 
-  // Update the header when the profile is saved.
+  // Update the header when profile is saved.
   const handleProfileUpdate = (updatedUser) => {
     setUser((currentUser) => ({
       ...currentUser,
@@ -191,6 +191,15 @@ function App() {
         const getCategoryEmission = (category) =>
           Number(categorySummary[category] || 0).toFixed(2);
 
+        const categories = [
+          "Transport",
+          "Electricity",
+          "Food",
+          "Waste Management",
+          "Water",
+          "Lifestyle",
+        ];
+
         return (
           <>
             <h2>Welcome to EcoTrack, {user.name}!</h2>
@@ -220,29 +229,15 @@ function App() {
                 <span>Total recorded emission</span>
               </div>
 
-              <div className="card">
-                <h3>Transport</h3>
-                <p className="number">
-                  {getCategoryEmission("Transport")} kg
-                </p>
-                <span>CO₂ emission</span>
-              </div>
-
-              <div className="card">
-                <h3>Electricity</h3>
-                <p className="number">
-                  {getCategoryEmission("Electricity")} kg
-                </p>
-                <span>CO₂ emission</span>
-              </div>
-
-              <div className="card">
-                <h3>Lifestyle</h3>
-                <p className="number">
-                  {getCategoryEmission("Lifestyle")} kg
-                </p>
-                <span>CO₂ emission</span>
-              </div>
+              {categories.map((category) => (
+                <div className="card" key={category}>
+                  <h3>{category}</h3>
+                  <p className="number">
+                    {getCategoryEmission(category)} kg
+                  </p>
+                  <span>CO₂ emission</span>
+                </div>
+              ))}
             </div>
 
             <section className="info-section">
