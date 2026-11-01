@@ -2,37 +2,30 @@
 import { useState } from "react";
 import "./Login.css";
 
-function Login({ onLogin, onShowSignup }) {
+function Login({ onLogin, onShowSignup, onShowForgotPassword }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Validate the form and send login details to the parent component.
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
 
     if (!email.trim() || !password) {
-      setError("Please enter your email and password.");
-      return;
-    }
-
-    if (!onLogin) {
-      setError("Login connection is not set up yet.");
+      setError("Please enter email and password.");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Wait for the backend login request to finish.
       await onLogin({
         email: email.trim(),
         password,
       });
     } catch (err) {
-      setError(err.message || "Login failed. Please try again.");
+      setError(err.message || "Login failed.");
     } finally {
       setLoading(false);
     }
@@ -46,27 +39,33 @@ function Login({ onLogin, onShowSignup }) {
 
         {error && <p className="auth-error">{error}</p>}
 
-        <label htmlFor="login-email">Email Address</label>
+        <label>Email</label>
         <input
-          id="login-email"
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          autoComplete="email"
           required
         />
 
-        <label htmlFor="login-password">Password</label>
+        <label>Password</label>
         <input
-          id="login-password"
           type="password"
           placeholder="Enter your password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          autoComplete="current-password"
           required
         />
+
+        <div className="forgot-password-link">
+          <button
+            type="button"
+            className="auth-link"
+            onClick={onShowForgotPassword}
+          >
+            Forgot Password?
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -82,7 +81,6 @@ function Login({ onLogin, onShowSignup }) {
             type="button"
             className="auth-link"
             onClick={onShowSignup}
-            disabled={loading}
           >
             Sign Up
           </button>

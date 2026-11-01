@@ -4,6 +4,7 @@ import "./App.css";
 
 import Login from "./Login";
 import Signup from "./Signup";
+import ForgotPassword from "./ForgotPassword";
 import CarbonTracker from "./CarbonTracker";
 import Goals from "./Goals";
 import Challenges from "./Challenges";
@@ -131,7 +132,7 @@ function App() {
     }));
   };
 
-  // Show login or signup before authentication.
+  // Show login, signup or forgot password before authentication.
   if (!user) {
     return (
       <div>
@@ -142,13 +143,28 @@ function App() {
               setAuthPage("signup");
               setError("");
             }}
+            onShowForgotPassword={() => {
+              setAuthPage("forgot");
+              setError("");
+            }}
           />
-        ) : (
+        ) : authPage === "signup" ? (
           <Signup
             onSignup={handleSignup}
             onShowLogin={() => {
               setAuthPage("login");
               setError("");
+            }}
+          />
+        ) : (
+          <ForgotPassword
+            onBackToLogin={() => {
+              setAuthPage("login");
+              setError("");
+            }}
+            onSuccess={(message) => {
+              setAuthPage("login");
+              setError(message);
             }}
           />
         )}
@@ -380,7 +396,9 @@ function App() {
           </nav>
         </aside>
 
-        <main className="main-content">{renderPage()}</main>
+        <main className="main-content">
+          {renderPage()}
+        </main>
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Store the login token for protected API requests.
 let authToken = "";
@@ -44,6 +46,7 @@ export async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
+// Signup API
 export function signupUser(userData) {
   return apiRequest("/auth/signup", {
     method: "POST",
@@ -51,6 +54,7 @@ export function signupUser(userData) {
   });
 }
 
+// Login API
 export function loginUser(credentials) {
   return apiRequest("/auth/login", {
     method: "POST",
@@ -58,6 +62,31 @@ export function loginUser(credentials) {
   });
 }
 
+// Forgot Password API - Send OTP
+export function forgotPassword(email) {
+  return apiRequest("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
+// Verify OTP API
+export function verifyOTP(email, otp) {
+  return apiRequest("/auth/verify-otp", {
+    method: "POST",
+    body: JSON.stringify({ email, otp }),
+  });
+}
+
+// Reset Password API
+export function resetPassword(email, newPassword) {
+  return apiRequest("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ email, newPassword }),
+  });
+}
+
+// Carbon Tracker APIs
 export function getCarbonEntries() {
   return apiRequest("/carbon");
 }
@@ -75,6 +104,7 @@ export function deleteCarbonEntry(id) {
   });
 }
 
+// Goals APIs
 export function getGoals() {
   return apiRequest("/goals");
 }
@@ -99,14 +129,17 @@ export function deleteGoal(id) {
   });
 }
 
+// Challenges API
 export function getChallenges() {
   return apiRequest("/challenges");
 }
 
+// Dashboard API
 export function getDashboard() {
   return apiRequest("/dashboard");
 }
 
+// Profile APIs
 export function getProfile() {
   return apiRequest("/profile");
 }

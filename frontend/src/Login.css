@@ -81,6 +81,11 @@
   background: #176638;
 }
 
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .auth-switch {
   text-align: center;
   color: #66756b;
@@ -102,6 +107,14 @@
   text-decoration: underline;
 }
 
+/* Forgot Password link */
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* Error message */
 .auth-error {
   color: #b42318;
   background: #fff0ee;
@@ -109,6 +122,31 @@
   border-radius: 6px;
   font-size: 14px;
   margin-bottom: 14px;
+}
+
+/* Success message */
+.auth-success {
+  color: #15803d;
+  background: #dcfce7;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+/* Authentication feedback */
+.auth-feedback {
+  max-width: 520px;
+  margin: 15px auto;
+  padding: 12px 20px;
+  color: #176638;
+  background: #dcfce7;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.auth-feedback p {
+  margin: 0;
 }
 
 @media (max-width: 600px) {
