@@ -197,4 +197,8 @@ Chhatrapati Shahu Ji Maharaj University, Kanpur
 
 ⭐ If you find this project useful, consider giving it a star on GitHub.
 
+## Recent Updates
+- Improved project documentation.
+- Updated project information and features.
+- 
 **Built with ❤️ using the MERN Stack.**
